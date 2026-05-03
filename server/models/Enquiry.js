@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const enquirySchema = new mongoose.Schema(
   {
@@ -29,4 +29,6 @@ const enquirySchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Enquiry", enquirySchema);
+const Enquiry = mongoose.models.Enquiry || mongoose.model("Enquiry", enquirySchema);
+
+export default Enquiry;

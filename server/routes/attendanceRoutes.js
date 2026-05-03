@@ -1,13 +1,16 @@
-const express = require("express");
-const {
+import express from "express";
+
+import {
+  getAttendance,
   createAttendance,
   getAttendanceByStudent,
-} = require("../controllers/attendanceController");
-const authMiddleware = require("../middleware/auth");
+} from "../controllers/attendanceController.js";
+import { authMiddleware, adminOnly } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", authMiddleware, createAttendance);
+router.get("/", authMiddleware, adminOnly, getAttendance);
+router.post("/", authMiddleware, adminOnly, createAttendance);
 router.get("/:studentId", authMiddleware, getAttendanceByStudent);
 
-module.exports = router;
+export default router;

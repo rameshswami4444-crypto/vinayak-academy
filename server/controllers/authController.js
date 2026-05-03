@@ -1,92 +1,141 @@
-const jwt = require("jsonwebtoken");
-const Student = require("../models/Student");
-const Course = require("../models/Course");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-function generateToken(student) {
+import User from "../models/User.js";
+
+function createToken(user) {
   return jwt.sign(
     {
-      id: student._id,
-      email: student.email,
+      userId: user._id,
+      email: user.email,
+      role: user.role,
     },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
   );
 }
 
-async function register(req, res) {
+function buildUserResponse(user) {
+  return {
+    id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    mobile: user.mobile,
+    role: user.role,
+  };
+}
+
+export async function register(req, res) {
   try {
-    const { name, email, phone, password, course, fees } = req.body;
+    const { fullName, email, mobile, password } = req.body;
 
-    if (!name || !email || !phone || !password || !course || fees === undefined) {
-      return res.status(400).json({ message: "All fields are required." });
+    if (!fullName || !email || !mobile || !password) {
+      return res.status(400).json({
+        message: "Full name, email, mobile, and password are required.",
+      });
     }
 
-    const existingCourse = await Course.findById(course);
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const normalizedMobile = String(mobile).trim();
 
-    if (!existingCourse) {
-      return res.status(404).json({ message: "Course not found." });
-    }
-
-    const existingStudent = await Student.findOne({
-      $or: [{ email: email.toLowerCase() }, { phone }],
+    const existingUser = await User.findOne({
+      $or: [{ email: normalizedEmail }, { mobile: normalizedMobile }],
     });
 
-    if (existingStudent) {
-      return res.status(409).json({ message: "Student already exists." });
+    if (existingUser) {
+      return res.status(409).json({
+        message: "User already exists with this email or mobile number.",
+      });
     }
 
-    const student = await Student.create({
-      name,
-      email,
-      phone,
-      password,
-      course,
-      fees,
+    const user = await User.create({
+      fullName: String(fullName).trim(),
+      email: normalizedEmail,
+      mobile: normalizedMobile,
+      passwordHash: await bcrypt.hash(password, 10),
+      role: "student",
     });
-
-    const populatedStudent = await Student.findById(student._id).populate("course");
 
     return res.status(201).json({
-      message: "Registration successful.",
-      token: generateToken(student),
-      student: populatedStudent,
+      message: "Account created successfully.",
+      token: createToken(user),
+      user: buildUserResponse(user),
     });
   } catch (error) {
-    return res.status(500).json({ message: "Unable to register student." });
+    console.error("Register failed:", error);
+    return res.status(500).json({ message: "Unable to create account right now." });
   }
 }
 
-async function login(req, res) {
+export async function login(req, res) {
   try {
-    const { email, password } = req.body;
+    const { identifier, password, role, accessCode } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required." });
+    if (!identifier || !password) {
+      return res.status(400).json({ message: "Email or mobile and password are required." });
     }
 
-    const student = await Student.findOne({ email: email.toLowerCase() }).populate("course");
+    const normalizedIdentifier = String(identifier).trim();
+    const normalizedEmail = normalizedIdentifier.toLowerCase();
+    const requestedRole = role === "admin" ? "admin" : "student";
 
-    if (!student) {
-      return res.status(401).json({ message: "Invalid credentials." });
+    const user = await User.findOne({
+      role: requestedRole,
+      $or: [{ email: normalizedEmail }, { mobile: normalizedIdentifier }],
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid login credentials." });
     }
 
-    const isValidPassword = await student.comparePassword(password);
+    const isValidPassword = await bcrypt.compare(password, user.passwordHash);
 
     if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid credentials." });
+      return res.status(401).json({ message: "Invalid login credentials." });
+    }
+
+    if (requestedRole === "admin" && process.env.ADMIN_ACCESS_CODE && accessCode !== process.env.ADMIN_ACCESS_CODE) {
+      return res.status(401).json({ message: "Invalid admin access code." });
     }
 
     return res.status(200).json({
       message: "Login successful.",
-      token: generateToken(student),
-      student,
+      token: createToken(user),
+      user: buildUserResponse(user),
     });
   } catch (error) {
-    return res.status(500).json({ message: "Unable to login." });
+    console.error("Login failed:", error);
+    return res.status(500).json({ message: "Unable to login right now." });
   }
 }
 
-module.exports = {
-  register,
-  login,
-};
+export async function ensureDefaultAdmin() {
+  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminName = process.env.ADMIN_NAME?.trim();
+  const adminMobile = process.env.ADMIN_MOBILE?.trim();
+
+  if (!adminEmail || !adminPassword || !adminName || !adminMobile) {
+    return;
+  }
+
+  const existingAdmin = await User.findOne({
+    $or: [{ email: adminEmail }, { mobile: adminMobile }],
+  });
+
+  if (existingAdmin) {
+    if (existingAdmin.role !== "admin") {
+      existingAdmin.role = "admin";
+      await existingAdmin.save();
+    }
+    return;
+  }
+
+  await User.create({
+    fullName: adminName,
+    email: adminEmail,
+    mobile: adminMobile,
+    passwordHash: await bcrypt.hash(adminPassword, 10),
+    role: "admin",
+  });
+}

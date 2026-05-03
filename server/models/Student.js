@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
@@ -74,4 +74,6 @@ studentSchema.methods.comparePassword = function comparePassword(candidatePasswo
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model("Student", studentSchema);
+const Student = mongoose.models.Student || mongoose.model("Student", studentSchema);
+
+export default Student;

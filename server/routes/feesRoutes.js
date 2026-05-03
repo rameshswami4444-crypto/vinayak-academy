@@ -1,10 +1,12 @@
-const express = require("express");
-const { createFees, getFeesByStudent } = require("../controllers/feesController");
-const authMiddleware = require("../middleware/auth");
+import express from "express";
+
+import { getFees, createFees, getFeesByStudent } from "../controllers/feesController.js";
+import { authMiddleware, adminOnly } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", authMiddleware, createFees);
+router.get("/", authMiddleware, adminOnly, getFees);
+router.post("/", authMiddleware, adminOnly, createFees);
 router.get("/:studentId", authMiddleware, getFeesByStudent);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const marksSchema = new mongoose.Schema(
   {
@@ -23,4 +23,6 @@ const marksSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Marks", marksSchema);
+const Marks = mongoose.models.Marks || mongoose.model("Marks", marksSchema);
+
+export default Marks;

@@ -1,4 +1,5 @@
 ﻿const menuBtn = document.getElementById("menuBtn");
+const BASE_URL = "https://vinayak-academy-6kqq.onrender.com";
 const mobileMenu = document.getElementById("mobileMenu");
 const modal = document.getElementById("enquiryModal");
 const modalPanel = document.getElementById("modalPanel");
@@ -76,21 +77,27 @@ function isStudentDashboardPage() {
 }
 
 async function postJson(url, payload) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const response = await fetch(`${BASE_URL}${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-  const data = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({}));
 
-  if (!response.ok) {
-    throw new Error(data.message || "Request failed.");
+    if (!response.ok) {
+      throw new Error(data.message || "Request failed.");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("API Error:", error);
+    alert("Something went wrong");
+    throw error;
   }
-
-  return data;
 }
 
 function getAuthToken() {
@@ -105,18 +112,24 @@ async function apiRequest(url, options = {}) {
     ...(options.headers || {}),
   };
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  try {
+    const response = await fetch(`${BASE_URL}${url}`, {
+      ...options,
+      headers,
+    });
 
-  const data = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({}));
 
-  if (!response.ok) {
-    throw new Error(data.message || "Request failed.");
+    if (!response.ok) {
+      throw new Error(data.message || "Request failed.");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("API Error:", error);
+    alert("Something went wrong");
+    throw error;
   }
-
-  return data;
 }
 
 function formatCurrency(amount) {
@@ -1637,7 +1650,7 @@ enquiryForm?.addEventListener("submit", (event) => {
     enquirySubmitButton.textContent = "Submitting...";
   }
 
-  fetch("/api/enquiry", {
+  fetch(`${BASE_URL}/api/enquiry`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -1656,6 +1669,7 @@ enquiryForm?.addEventListener("submit", (event) => {
       window.alert(data.message || "Enquiry submitted successfully.");
     })
     .catch((error) => {
+      console.error("API Error:", error);
       window.alert(error.message || "Unable to submit enquiry right now.");
     })
     .finally(() => {
@@ -1683,15 +1697,3 @@ window.addEventListener("load", () => {
   loadAdminData();
   loadStudentDashboard();
 });
-
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
-
-  const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running"));

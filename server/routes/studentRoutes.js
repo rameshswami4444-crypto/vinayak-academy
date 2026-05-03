@@ -1,17 +1,18 @@
-const express = require("express");
-const {
+import express from "express";
+
+import {
   getStudents,
   createStudent,
   updateStudent,
   deleteStudent,
-} = require("../controllers/studentController");
-const authMiddleware = require("../middleware/auth");
+} from "../controllers/studentController.js";
+import { authMiddleware, adminOnly } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getStudents);
-router.post("/", authMiddleware, createStudent);
-router.put("/:id", authMiddleware, updateStudent);
-router.delete("/:id", authMiddleware, deleteStudent);
+router.get("/", authMiddleware, adminOnly, getStudents);
+router.post("/", authMiddleware, adminOnly, createStudent);
+router.put("/:id", authMiddleware, adminOnly, updateStudent);
+router.delete("/:id", authMiddleware, adminOnly, deleteStudent);
 
-module.exports = router;
+export default router;

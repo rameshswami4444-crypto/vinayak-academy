@@ -1,10 +1,11 @@
-const express = require("express");
-const { createEnquiry, getEnquiries } = require("../controllers/enquiryController");
-const authMiddleware = require("../middleware/auth");
+import express from "express";
+
+import { createEnquiry, getEnquiries } from "../controllers/enquiryController.js";
+import { authMiddleware, adminOnly } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.post("/", createEnquiry);
-router.get("/", authMiddleware, getEnquiries);
+router.get("/", authMiddleware, adminOnly, getEnquiries);
 
-module.exports = router;
+export default router;
