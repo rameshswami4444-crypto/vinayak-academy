@@ -12,7 +12,7 @@ const Attendance = require("./models/Attendance");
 const Marks = require("./models/Marks");
 const Fees = require("./models/Fees");
 const dotenv = require("dotenv");
-const mongoose = require("mongoose");
+
 dotenv.config();
 
 const app = express();
