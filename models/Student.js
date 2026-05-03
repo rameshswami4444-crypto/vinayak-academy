@@ -1,0 +1,73 @@
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+const studentSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      unique: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
+    fees: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    attendance: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Attendance",
+      },
+    ],
+    marks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Marks",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+studentSchema.set("toJSON", {
+  transform: (_doc, ret) => {
+    delete ret.password;
+    return ret;
+  },
+});
+
+studentSchema.pre("save", async function hashPassword(next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+module.exports = mongoose.model("Student", studentSchema);
