@@ -11,7 +11,7 @@ const Student = require("./models/Student");
 const Attendance = require("./models/Attendance");
 const Marks = require("./models/Marks");
 const Fees = require("./models/Fees");
-const dotenv = require("dotenv");
+
 
 dotenv.config();
 
