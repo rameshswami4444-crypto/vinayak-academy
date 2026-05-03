@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Vinayak Academy website with enquiry API",
   "main": "server.js",
-  "type": "module",
+ 
   "scripts": {
     "start": "node server.js"
   },
