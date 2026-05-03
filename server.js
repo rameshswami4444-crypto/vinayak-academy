@@ -11,7 +11,8 @@ const Student = require("./models/Student");
 const Attendance = require("./models/Attendance");
 const Marks = require("./models/Marks");
 const Fees = require("./models/Fees");
-
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 dotenv.config();
 
 const app = express();
@@ -658,8 +659,5 @@ startServer().catch((error) => {
   console.error("Failed to start server:", error.message);
   process.exit(1);
 });
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 
-dotenv.config();
 
