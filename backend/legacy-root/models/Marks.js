@@ -25,3 +25,4 @@ const marksSchema = new mongoose.Schema(
 
 module.exports = mongoose.model("Marks", marksSchema);
 
+const BASE_URL = "https://vinayak-academy-6kqq.onrender.com";
