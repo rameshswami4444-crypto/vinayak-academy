@@ -81,6 +81,13 @@ function formatCurrency(value) {
   return `INR ${Number(value || 0).toLocaleString("en-IN")}`;
 }
 
+function setText(id, value) {
+  const element = $(id);
+  if (element) {
+    element.textContent = value;
+  }
+}
+
 function getDashboardStore() {
   try {
     const stored = JSON.parse(localStorage.getItem(DASHBOARD_STORAGE_KEY) || "null");
@@ -110,7 +117,7 @@ function getEnquiries() {
 function saveEnquiry(entry) {
   const enquiries = getEnquiries();
   enquiries.unshift({
-    id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+    id: window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now()),
     ...entry,
   });
   localStorage.setItem(ENQUIRY_STORAGE_KEY, JSON.stringify(enquiries));
@@ -519,7 +526,9 @@ async function setupAuthForms() {
       setMessage("authMessage", "Account created successfully. You can now login.", "success");
       registerForm.reset();
       setAuthMode("login");
-      $("loginIdentifier").value = payload.email;
+      if ($("loginIdentifier")) {
+        $("loginIdentifier").value = payload.email;
+      }
     } catch (error) {
       setMessage("authMessage", error.message || "Unable to create account.", "error");
     } finally {
@@ -617,7 +626,7 @@ function renderAdminCourses(store) {
     </tr>
   `).join("");
 
-  $("adminCourseCount").textContent = String(store.courses.length);
+  setText("adminCourseCount", String(store.courses.length));
 }
 
 function renderAdminStudents(store) {
@@ -641,7 +650,7 @@ function renderAdminStudents(store) {
     </tr>
   `).join("");
 
-  $("adminStudentCount").textContent = String(store.students.length);
+  setText("adminStudentCount", String(store.students.length));
 }
 
 function renderAdminEnquiries() {
@@ -662,7 +671,7 @@ function renderAdminEnquiries() {
     `).join("")
     : `<tr><td colspan="4">No enquiries captured yet.</td></tr>`;
 
-  $("adminEnquiryCount").textContent = String(enquiries.length);
+  setText("adminEnquiryCount", String(enquiries.length));
 }
 
 function setupAdminForms(profile) {
@@ -671,9 +680,9 @@ function setupAdminForms(profile) {
   renderAdminStudents(store);
   renderAdminEnquiries();
 
-  $("dashboardStudentName").textContent = profile.name || "Admin User";
-  $("dashboardStudentRole").textContent = "Administrator";
-  $("adminAvatar").textContent = getInitials(profile.name || "Admin User");
+  setText("dashboardStudentName", profile.name || "Admin User");
+  setText("dashboardStudentRole", "Administrator");
+  setText("adminAvatar", getInitials(profile.name || "Admin User"));
 
   $("saveCourseBtn")?.addEventListener("click", () => {
     const title = $("courseName")?.value.trim() || "";
@@ -686,7 +695,7 @@ function setupAdminForms(profile) {
     }
 
     store.courses.unshift({
-      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      id: window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now()),
       title,
       duration,
       fees,
@@ -711,7 +720,7 @@ function setupAdminForms(profile) {
     }
 
     store.students.unshift({
-      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      id: window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now()),
       name,
       email,
       mobile,
@@ -731,26 +740,26 @@ function renderStudentDashboard(profile) {
   const feesPending = Math.max(totalFees - feesPaid, 0);
   const progressAverage = Math.round(DEFAULT_STUDENT_PROGRESS.reduce((sum, item) => sum + item.marks, 0) / DEFAULT_STUDENT_PROGRESS.length);
 
-  $("dashboardHeading").textContent = `Welcome back, ${profile.name || "Student"}`;
-  $("dashboardStudentName").textContent = profile.name || "Student";
-  $("dashboardStudentRole").textContent = `${profile.course_title || "RS-CIT"} Student`;
-  $("studentAvatar").textContent = getInitials(profile.name || "Student");
+  setText("dashboardHeading", `Welcome back, ${profile.name || "Student"}`);
+  setText("dashboardStudentName", profile.name || "Student");
+  setText("dashboardStudentRole", `${profile.course_title || "RS-CIT"} Student`);
+  setText("studentAvatar", getInitials(profile.name || "Student"));
 
-  $("studentCourseTitle").textContent = profile.course_title || "RS-CIT";
-  $("studentCourseSubtitle").textContent = "Your current learning path";
-  $("studentAttendancePercentValue").textContent = "88%";
-  $("studentAverageMarksValue").textContent = String(progressAverage);
-  $("studentFeesStatusValue").textContent = profile.fees_status || (feesPending > 0 ? "Pending" : "Paid");
-  $("studentFeesPendingValue").textContent = `${formatCurrency(feesPending)} pending`;
+  setText("studentCourseTitle", profile.course_title || "RS-CIT");
+  setText("studentCourseSubtitle", "Your current learning path");
+  setText("studentAttendancePercentValue", "88%");
+  setText("studentAverageMarksValue", String(progressAverage));
+  setText("studentFeesStatusValue", profile.fees_status || (feesPending > 0 ? "Pending" : "Paid"));
+  setText("studentFeesPendingValue", `${formatCurrency(feesPending)} pending`);
 
-  $("profileStudentName").textContent = profile.name || "Student";
-  $("profileStudentEmail").textContent = profile.email || "-";
-  $("profileStudentMobile").textContent = profile.mobile || "-";
-  $("profileStudentCourse").textContent = profile.course_title || "RS-CIT";
-  $("profileStudentFees").textContent = profile.fees_status || "Pending";
-  $("studentFeesTotalValue").textContent = formatCurrency(totalFees);
-  $("studentFeesPaidValue").textContent = formatCurrency(feesPaid);
-  $("studentFeesPendingDetailValue").textContent = formatCurrency(feesPending);
+  setText("profileStudentName", profile.name || "Student");
+  setText("profileStudentEmail", profile.email || "-");
+  setText("profileStudentMobile", profile.mobile || "-");
+  setText("profileStudentCourse", profile.course_title || "RS-CIT");
+  setText("profileStudentFees", profile.fees_status || "Pending");
+  setText("studentFeesTotalValue", formatCurrency(totalFees));
+  setText("studentFeesPaidValue", formatCurrency(feesPaid));
+  setText("studentFeesPendingDetailValue", formatCurrency(feesPending));
 
   const resultsBody = $("studentResultsTableBody");
   if (resultsBody) {
