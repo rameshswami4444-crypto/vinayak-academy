@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Vinayak Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="dashboard-body" data-page="admin-dashboard">
+  <div class="dashboard-layout">
+    <aside id="dashboardSidebar" class="dashboard-sidebar admin-sidebar">
+      <div class="dashboard-brand">
+        <div class="brand-mark">VA</div>
+        <div>
+          <strong>Admin Portal</strong>
+          <span>Operations dashboard</span>
+        </div>
+      </div>
+
+      <nav class="dashboard-nav">
+        <button type="button" class="dashboard-nav-link is-active" data-dashboard-target="admin-overview">Overview</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="admin-courses">Courses</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="admin-students">Students</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="admin-enquiries">Enquiries</button>
+      </nav>
+
+      <button id="dashboardLogoutBtn" class="button button-ghost button-full" type="button">Logout</button>
+    </aside>
+
+    <div id="dashboardOverlay" class="dashboard-overlay"></div>
+
+    <main class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div>
+          <button id="dashboardSidebarToggle" class="menu-toggle dashboard-toggle" type="button" aria-label="Toggle sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <p class="eyebrow">Admin workspace</p>
+          <h1>Academy control room</h1>
+        </div>
+
+        <div class="dashboard-user-chip glass-panel">
+          <div class="dashboard-avatar" id="adminAvatar">AD</div>
+          <div>
+            <strong id="dashboardStudentName">Admin User</strong>
+            <span id="dashboardStudentRole">Administrator</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="admin-overview" class="dashboard-section is-active">
+        <div class="dashboard-card-grid">
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Tracked courses</span>
+            <strong id="adminCourseCount">0</strong>
+            <small>local dashboard data</small>
+          </article>
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Tracked students</span>
+            <strong id="adminStudentCount">0</strong>
+            <small>local dashboard data</small>
+          </article>
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Enquiries</span>
+            <strong id="adminEnquiryCount">0</strong>
+            <small>captured from forms</small>
+          </article>
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Architecture</span>
+            <strong>Frontend Only</strong>
+            <small>Supabase + static Vercel</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="admin-courses" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Courses</h2>
+              <p>Manage the frontend course showcase from browser storage.</p>
+            </div>
+          </div>
+
+          <form id="courseForm" class="stack-form compact-form">
+            <input id="courseName" type="text" placeholder="Course name" />
+            <input id="courseDuration" type="text" placeholder="Duration" />
+            <input id="courseFees" type="number" placeholder="Fees" />
+            <button id="saveCourseBtn" class="button button-primary" type="button">Add Course</button>
+          </form>
+
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Course</th>
+                  <th>Duration</th>
+                  <th>Fees</th>
+                </tr>
+              </thead>
+              <tbody id="coursesTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section id="admin-students" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Students</h2>
+              <p>Track basic student records for the portal demo layer.</p>
+            </div>
+          </div>
+
+          <form id="studentForm" class="stack-form compact-form">
+            <input id="studentName" type="text" placeholder="Student name" />
+            <input id="studentEmail" type="email" placeholder="Student email" />
+            <input id="studentMobile" type="tel" placeholder="Mobile number" />
+            <select id="studentCourse"></select>
+            <input id="studentFees" type="number" placeholder="Fees" />
+            <button id="saveStudentBtn" class="button button-primary" type="button">Add Student</button>
+          </form>
+
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>Course</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section id="admin-enquiries" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Recent enquiries</h2>
+              <p>These entries come from the frontend enquiry forms and are stored locally in the browser.</p>
+            </div>
+          </div>
+
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Interest</th>
+                </tr>
+              </thead>
+              <tbody id="enquiriesTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

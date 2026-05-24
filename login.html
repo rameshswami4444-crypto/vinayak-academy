@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Login | Vinayak Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="auth-page" data-page="login">
+  <div class="site-bg" aria-hidden="true">
+    <span class="bg-orb bg-orb-one"></span>
+    <span class="bg-orb bg-orb-two"></span>
+    <span class="bg-grid"></span>
+  </div>
+
+  <header class="site-header">
+    <nav class="navbar container">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">VA</span>
+        <span>Vinayak Academy</span>
+      </a>
+      <div class="nav-links desktop-nav">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="services.html">Services</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="auth-layout">
+    <section class="container auth-grid">
+      <article class="glass-panel auth-copy">
+        <span class="hero-badge">Supabase Auth Enabled</span>
+        <h1>Secure portal access for students and admins.</h1>
+        <p>Create a student account, keep sessions alive across refreshes, and redirect users automatically based on role.</p>
+        <div class="auth-points">
+          <div>
+            <strong>Student signup</strong>
+            <p>New students can register directly from this page.</p>
+          </div>
+          <div>
+            <strong>Admin login</strong>
+            <p>Admin users log in with existing academy credentials.</p>
+          </div>
+          <div>
+            <strong>Persistent session</strong>
+            <p>Users remain signed in until they explicitly log out.</p>
+          </div>
+        </div>
+      </article>
+
+      <section class="glass-panel auth-card">
+        <div class="auth-toggle-row">
+          <div class="segmented-control" role="tablist" aria-label="Role selection">
+            <button type="button" class="is-active" data-role-target="student">Student</button>
+            <button type="button" data-role-target="admin">Admin</button>
+          </div>
+          <div class="segmented-control" role="tablist" aria-label="Mode selection">
+            <button type="button" class="is-active" data-mode-target="login">Login</button>
+            <button type="button" data-mode-target="register">Signup</button>
+          </div>
+        </div>
+
+        <div id="authMessage" class="form-message form-message-inline" aria-live="polite"></div>
+
+        <section id="loginView" class="auth-view is-active">
+          <span id="authRoleBadge" class="section-kicker">Student Portal</span>
+          <h2>Login to continue</h2>
+          <p id="authRoleMessage">Access your classes, profile, and progress in one polished workspace.</p>
+
+          <form id="loginAuthForm" class="stack-form">
+            <input id="loginIdentifier" type="email" placeholder="Email address" required />
+            <input id="loginPassword" type="password" placeholder="Password" required />
+            <button id="loginSubmitText" class="button button-primary" type="submit">Login as Student</button>
+          </form>
+
+          <button id="forgotPasswordBtn" class="text-link" type="button">Forgot password?</button>
+          <p id="adminPrompt" class="helper-copy is-hidden">Admin accounts must already exist in Supabase Auth and in the `users` table with role `admin`.</p>
+        </section>
+
+        <section id="registerView" class="auth-view">
+          <span class="section-kicker">Student Signup</span>
+          <h2>Create your student account</h2>
+          <p>Student registration writes your profile to Supabase and logs you into the student portal.</p>
+
+          <form id="registerAuthForm" class="stack-form">
+            <input id="registerName" type="text" placeholder="Full name" required />
+            <input id="registerEmail" type="email" placeholder="Email address" required />
+            <input id="registerMobile" type="tel" placeholder="Mobile number" required />
+            <input id="registerCourse" type="text" placeholder="Preferred course" required />
+            <input id="registerPassword" type="password" placeholder="Create password" required />
+            <input id="registerConfirmPassword" type="password" placeholder="Confirm password" required />
+            <button id="registerSubmitButton" class="button button-primary" type="submit">Create Student Account</button>
+          </form>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

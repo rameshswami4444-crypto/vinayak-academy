@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard | Vinayak Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="dashboard-body" data-page="student-dashboard">
+  <div class="dashboard-layout">
+    <aside id="dashboardSidebar" class="dashboard-sidebar">
+      <div class="dashboard-brand">
+        <div class="brand-mark">VA</div>
+        <div>
+          <strong>Student Portal</strong>
+          <span>Vinayak Academy</span>
+        </div>
+      </div>
+
+      <nav class="dashboard-nav">
+        <button type="button" class="dashboard-nav-link is-active" data-dashboard-target="student-overview">Overview</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="student-course">My Course</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="student-progress">Progress</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="student-fees">Fees</button>
+        <button type="button" class="dashboard-nav-link" data-dashboard-target="student-profile">Profile</button>
+      </nav>
+
+      <button id="dashboardLogoutBtn" class="button button-ghost button-full" type="button">Logout</button>
+    </aside>
+
+    <div id="dashboardOverlay" class="dashboard-overlay"></div>
+
+    <main class="dashboard-main">
+      <header class="dashboard-topbar">
+        <div>
+          <button id="dashboardSidebarToggle" class="menu-toggle dashboard-toggle" type="button" aria-label="Toggle sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <p class="eyebrow">Student workspace</p>
+          <h1 id="dashboardHeading">Welcome back</h1>
+        </div>
+
+        <div class="dashboard-user-chip glass-panel">
+          <div class="dashboard-avatar" id="studentAvatar">VA</div>
+          <div>
+            <strong id="dashboardStudentName">Student Name</strong>
+            <span id="dashboardStudentRole">Student</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="student-overview" class="dashboard-section is-active">
+        <div class="dashboard-card-grid">
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Current program</span>
+            <strong id="studentCourseTitle">RS-CIT</strong>
+            <small id="studentCourseSubtitle">Student learning track</small>
+          </article>
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Attendance</span>
+            <strong id="studentAttendancePercentValue">88%</strong>
+            <small>Above target</small>
+          </article>
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Marks average</span>
+            <strong id="studentAverageMarksValue">87</strong>
+            <small>Healthy academic trend</small>
+          </article>
+          <article class="dashboard-card glass-panel">
+            <span class="card-label">Fee status</span>
+            <strong id="studentFeesStatusValue">Pending</strong>
+            <small id="studentFeesPendingValue">INR 0 pending</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="student-course" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <h2>My Course</h2>
+          <div class="detail-list">
+            <div><span>Course</span><strong id="profileStudentCourse">RS-CIT</strong></div>
+            <div><span>Duration</span><strong>3 Months</strong></div>
+            <div><span>Mentor</span><strong>Vinayak Academy Team</strong></div>
+            <div><span>Delivery</span><strong>Offline + Digital Support</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <section id="student-progress" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <h2>Progress Snapshot</h2>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Marks</th>
+                  <th>Grade</th>
+                </tr>
+              </thead>
+              <tbody id="studentResultsTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section id="student-fees" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <h2>Fees Overview</h2>
+          <div class="detail-list">
+            <div><span>Total fees</span><strong id="studentFeesTotalValue">INR 0</strong></div>
+            <div><span>Fees paid</span><strong id="studentFeesPaidValue">INR 0</strong></div>
+            <div><span>Pending</span><strong id="studentFeesPendingDetailValue">INR 0</strong></div>
+            <div><span>Status</span><strong id="profileStudentFees">Pending</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <section id="student-profile" class="dashboard-section">
+        <article class="dashboard-panel glass-panel">
+          <h2>Profile</h2>
+          <div class="detail-list">
+            <div><span>Name</span><strong id="profileStudentName">Student Name</strong></div>
+            <div><span>Email</span><strong id="profileStudentEmail">student@example.com</strong></div>
+            <div><span>Mobile</span><strong id="profileStudentMobile">+91 00000 00000</strong></div>
+            <div><span>Role</span><strong>Student</strong></div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

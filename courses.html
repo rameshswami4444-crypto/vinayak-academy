@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses | Vinayak Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="courses">
+  <div class="site-bg" aria-hidden="true">
+    <span class="bg-orb bg-orb-one"></span>
+    <span class="bg-orb bg-orb-three"></span>
+    <span class="bg-grid"></span>
+  </div>
+
+  <header class="site-header">
+    <nav class="navbar container">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">VA</span>
+        <span>Vinayak Academy</span>
+      </a>
+
+      <button id="menuBtn" class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links desktop-nav">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="is-active" aria-current="page">Courses</a>
+        <a href="services.html">Services</a>
+        <a href="login.html">Portal</a>
+        <button id="openModalBtn" class="button button-primary button-small" type="button">Enquiry</button>
+      </div>
+    </nav>
+
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <div class="container mobile-menu-inner">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="services.html">Services</a>
+        <a href="login.html">Portal</a>
+        <button id="openModalBtnMobile" class="button button-primary" type="button">Enquiry</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container hero-grid compact-hero">
+        <div id="heroContent" class="hero-copy">
+          <span class="hero-badge">Career-focused curriculum</span>
+          <h1>Courses built for practical results.</h1>
+          <p>Choose from computer education, accounting, digital growth, and professional skill tracks designed for modern learners.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section surface section-reveal">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-kicker">Programs</span>
+          <h2>High-value learning tracks</h2>
+        </div>
+
+        <div class="card-grid">
+          <article class="info-card glass-panel">
+            <span class="card-tag">3 Months</span>
+            <h3>RS-CIT</h3>
+            <p>Foundational computing, internet literacy, office tools, and practical confidence for daily digital work.</p>
+          </article>
+          <article class="info-card glass-panel">
+            <span class="card-tag">4 Months</span>
+            <h3>Tally with GST</h3>
+            <p>Accounting software, GST processes, inventory control, and business-oriented reporting.</p>
+          </article>
+          <article class="info-card glass-panel">
+            <span class="card-tag">2 Months</span>
+            <h3>Basic Computer</h3>
+            <p>Typing, file management, email, browsing, and software basics for absolute beginners.</p>
+          </article>
+          <article class="info-card glass-panel">
+            <span class="card-tag">3 Months</span>
+            <h3>Digital Marketing</h3>
+            <p>SEO, content systems, Meta ads, campaign planning, and analytics-driven growth.</p>
+          </article>
+          <article class="info-card glass-panel">
+            <span class="card-tag">6 Months</span>
+            <h3>Web Development</h3>
+            <p>Responsive websites, frontend architecture, deployment workflows, and project-based learning.</p>
+          </article>
+          <article class="info-card glass-panel">
+            <span class="card-tag">2 Months</span>
+            <h3>MS Office & Productivity</h3>
+            <p>Word, Excel, PowerPoint, documentation, reports, and office-ready workflow skills.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section section-reveal">
+      <div class="container">
+        <div class="cta-banner glass-panel">
+          <div>
+            <span class="section-kicker">Admissions</span>
+            <h2>Need help choosing the right course?</h2>
+            <p>Send an enquiry and we will guide you to the best program for your goals.</p>
+          </div>
+          <button id="heroEnquireBtn" class="button button-primary" type="button">Start Enquiry</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Vinayak Academy</h3>
+        <p>Practical training with a modern student-first digital experience.</p>
+      </div>
+      <div>
+        <h3>Portal</h3>
+        <p>Student login, admin access, secure sessions, and responsive dashboards.</p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>info@vinayakacademy.in</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="enquiryModal" class="modal" aria-hidden="true">
+    <div class="modal-panel glass-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <span class="section-kicker">Course Enquiry</span>
+          <h3 id="modalTitle">Reserve a counselling call</h3>
+        </div>
+        <button id="closeModalBtn" class="modal-close" type="button" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="enquiryForm" class="enquiry-form">
+        <input type="text" name="name" placeholder="Full name" required />
+        <input type="email" name="email" placeholder="Email address" required />
+        <input type="tel" name="phone" placeholder="Mobile number" required />
+        <select name="course" required>
+          <option value="" disabled selected>Select a course</option>
+          <option>RS-CIT</option>
+          <option>Tally with GST</option>
+          <option>Basic Computer</option>
+          <option>Digital Marketing</option>
+          <option>Web Development</option>
+        </select>
+        <button type="submit" class="button button-primary">Submit Enquiry</button>
+        <p id="enquiryMessage" class="form-message" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
